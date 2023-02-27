@@ -119,10 +119,13 @@ public class HelloApplication extends Application {
         // form general info
         lb_FullName = new Label("Nom et prénom");
         tf_FullName = new TextField();
+        tf_FullName.setPromptText("Nom et prénom");
         lb_email = new Label("Email");
         tf_email = new TextField();
+        tf_email.setPromptText("Email");
         lb_phone = new Label("Tél");
         tf_phone = new TextField();
+        tf_phone.setPromptText("Tél");
 
         // add image
         img_photo = new Image("file:src/main/resources/malek/khannoussi/tp2/user.png");
@@ -162,7 +165,7 @@ public class HelloApplication extends Application {
             cb_dateOfBirthMonth.getItems().add(i);
         }
         cb_dateOfBirthYear = new ComboBox();
-        for (int i = 2023; i <=1900 ; i--) {
+        for (int i = 2023; i >1900 ; i--) {
             cb_dateOfBirthYear.getItems().add(i);
         }
         cb_dateOfBirthYear.setPlaceholder(new Label("Année"));
@@ -247,7 +250,38 @@ public class HelloApplication extends Application {
 
 
 
+        bt_send.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(tf_FullName.getText().isEmpty() || tf_phone.getText().isEmpty() || cb_dateOfBirthDay.getValue() == null || cb_dateOfBirthMonth.getValue() == null || cb_dateOfBirthYear.getValue() == null || tg.getSelectedToggle() == null || cb_formation.getValue() == null || cb_java.getValue() == null || cb_python.getValue() == null || cb_machineLearning.getValue() == null || ta_comment.getText().isEmpty() || iv_photo.getImage() == null){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erreur");
+                    alert.setHeaderText("Erreur");
+                    alert.setContentText("Veuillez remplir tous les champs");
+                    alert.showAndWait();
+                }else{
+               // File f = new File("file:src/main/resources/malek/khannoussi/tp2/index.html");
+                FileWriter fw = null;
+                try {
+                    fw = new FileWriter("index.html",false);
+                    // write all the information in the html file with cool style
+                    fw.write("<html> <head> <title> CV </title>"+
+                            "<style> p { padding: 0 2rem; } h2{  text-shadow: 0px 0px 10px #262d5e; } h1 { text-align: center; text-shadow: 0 0 12px #2d2f74; } </style> "+
+                            " </head> <body> <h1> CV </h1> <h2> Informations générales </h2> <p> Nom Prenom : " + tf_FullName.getText() + "</p> <p> Date de naissance : " + cb_dateOfBirthDay.getValue() + "/" + cb_dateOfBirthMonth.getValue() + "/" + cb_dateOfBirthYear.getValue() + "</p> <p> Genre : " + tg.getSelectedToggle().getUserData() + "</p> <p> Formation : " + cb_formation.getValue() + "</p> <h2> Compétences </h2> <p> Java : " + cb_java.getValue() + "</p> <p> Python : " + cb_python.getValue() + "</p> <p> Machine Learning : " + cb_machineLearning.getValue() + "</p> <p> Commentaire : " + ta_comment.getText() + "</p> </body> </html>");
+                    //fw.write("<html> <head> <title> CV </title> </head> <body> <h1> CV </h1> <h2> Informations générales </h2> <p> Nom Prenom : " + tf_FullName.getText() + "</p> <p> Date de naissance : " + cb_dateOfBirthDay.getValue() + "/" + cb_dateOfBirthMonth.getValue() + "/" + cb_dateOfBirthYear.getValue() + "</p> <p> Genre : " + tg.getSelectedToggle().getUserData() + "</p> <p> Formation : " + cb_formation.getValue() + "</p> <h2> Compétences </h2> <p> Java : " + cb_java.getValue() + "</p> <p> Python : " + cb_python.getValue() + "</p> <p> Machine Learning : " + cb_machineLearning.getValue() + "</p> <p> Commentaire : " + ta_comment.getText() + "</p> </body> </html>");
+                    fw.close();
 
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                    // open index.html in the browser using HostServices class
+                    getHostServices().showDocument("index.html");
+
+                }
+
+
+            }
+        });
 
 
 
@@ -260,24 +294,7 @@ public class HelloApplication extends Application {
         stage.setResizable(true);
         stage.setScene(scene);
         stage.show();
-        bt_send.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
 
-                    File f = new File("file:src/main/resources/malek/khannoussi/tp2/index.html");
-                FileWriter fw = null;
-                try {
-                    fw = new FileWriter(f,false);
-                    fw.write("<html> <head> <title> CV </title> </head> <body> <h1> CV </h1> <h2> Informations générales </h2> <p> Nom Prenom : " + tf_FullName.getText() + "</p> <p> Date de naissance : " + cb_dateOfBirthDay.getValue() + "/" + cb_dateOfBirthMonth.getValue() + "/" + cb_dateOfBirthYear.getValue() + "</p> <p> Genre : " + tg.getSelectedToggle().getUserData() + "</p> <p> Formation : " + cb_formation.getValue() + "</p> <h2> Compétences </h2> <p> Java : " + cb_java.getValue() + "</p> <p> Python : " + cb_python.getValue() + "</p> <p> Machine Learning : " + cb_machineLearning.getValue() + "</p> <p> Commentaire : " + ta_comment.getText() + "</p> </body> </html>");
-                    fw.close();
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-
-            }
-        });
         bt_cancel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
