@@ -43,7 +43,8 @@ public class Tp3 extends Application {
         root = new BorderPane();
         top = new HBox();
         top.setAlignment(Pos.CENTER);
-        top.setSpacing(10);
+        top.setSpacing(20);
+        top.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
         firstName = new Label("Nom");
         lastName = new Label("Prénom");
         pseudo = new Label("Pseudo");
@@ -104,7 +105,11 @@ public class Tp3 extends Application {
         edit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-
+                Profile profile = (Profile) listView.getSelectionModel().getSelectedItem();
+                firstNameField.setText(profile.firstName);
+                lastNameField.setText(profile.lastName);
+                pseudoField.setText(profile.pseudo);
+                items.remove(profile);
             }
         });
 

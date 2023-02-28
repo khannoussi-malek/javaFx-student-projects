@@ -17,7 +17,7 @@ public class EcouterListView  implements EventHandler<MouseEvent> {
     public void handle(MouseEvent e) {
         if(e.getClickCount()==2 && e.getSource()==ex.listView && e.getButton()== MouseButton.PRIMARY){
            Profile profile = (Profile) ex.listView.getSelectionModel().getSelectedItem();
-            ex.tabPane.getTabs().add(new Tab(profile.pseudo,new MyVBox()));
+            ex.tabPane.getTabs().add(new Tab(profile.pseudo,new MyVBox(profile)));
         }
     }
 }
